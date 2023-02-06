@@ -2,11 +2,9 @@ import httpx
 import pytest
 import sqlalchemy as sa
 
-from app.domain import commands
 from app.entrypoints import dependencies
 from app.main import app
 from app.service_layer import unit_of_work
-from app.service_layer.handlers import BackgroundJob
 
 
 @pytest.mark.asyncio

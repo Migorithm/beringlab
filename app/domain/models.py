@@ -1,5 +1,4 @@
 import abc
-import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from functools import singledispatchmethod
@@ -43,11 +42,10 @@ class Work:
     @execute.register
     @classmethod
     def _create(cls, msg: commands.CreateFibonacciWork):
-        tick = time.time()
         return cls(
             n=msg.n,
-            result=cls.fibonacci(msg.n),
-            elapsed_time=str(time.time() - tick),
+            result=msg.result,
+            elapsed_time=msg.elapsed_time,
         )
 
     # the job is defined here because this is the work of business interest

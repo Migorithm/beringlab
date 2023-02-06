@@ -1,5 +1,4 @@
 import asyncio
-import sys
 
 import pytest
 import pytest_asyncio
@@ -17,13 +16,6 @@ def event_loop():
     Creates an instance of the default event loop for the test session
     """
     loop = asyncio.get_event_loop_policy().new_event_loop()
-
-    # In case you are working on windows
-    if sys.platform.lower().startswith("win") and sys.version_info[:2] >= (3, 8):
-        # Avoid "RuntimeError: Event loop is closed" on Windows when tearing down tests
-        # https://github.com/encode/httpx/issues/914
-        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-
     yield loop
     loop.close()
 

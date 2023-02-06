@@ -38,9 +38,8 @@ async def test_session(session_factory):
         await session.execute(
             sa.text(
                 """
-            INSERT INTO test_work (n,result,elapsed_time) 
+            INSERT INTO test_work (n,result,elapsed_time)
             VALUES (1,1,'1');
-            
             """
             )
         )

@@ -1,7 +1,6 @@
 import abc
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from typing_extensions import Self
 
 from app.adapters import repository
 from app.db import async_transactional_session_factory
@@ -11,7 +10,7 @@ DEFAULT_ALCHEMY_TRANSACTIONAL_SESSION_FACTORY = async_transactional_session_fact
 
 
 class AbstractUnitOfWork(abc.ABC):
-    async def __aenter__(self) -> Self:
+    async def __aenter__(self):
         return self
 
     async def commit(self):
@@ -37,11 +36,12 @@ class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
             else session_factory
         )
 
-    async def __aenter__(self) -> Self:
+    async def __aenter__(self):
         self.session: AsyncSession = self.session_factory()
         self.works = repository.SqlAlchemyRepository(
             model=models.Work, session=self.session
         )
+        return self
 
     async def __aexit__(self, *args):
         await self.session.rollback()

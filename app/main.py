@@ -1,4 +1,4 @@
 from app.entrypoints import create_app
 
 app = create_app()
-celery = app.celery_app
+celery = getattr(app, "celery_app", None)

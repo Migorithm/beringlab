@@ -1,5 +1,6 @@
 include .env
-EXPORT = export PYTHONPATH=$(PWD)
+
+EXPORT=export PYTHONPATH=$(PWD)
 
 
 checks:

@@ -23,6 +23,13 @@ class AbstractRepository(abc.ABC):
     async def _get(self):
         ...
 
+    async def list(self):
+        return await self._list()
+
+    @abc.abstractmethod
+    async def _list(self):
+        ...
+
 
 class SqlAlchemyRepository(AbstractRepository):
     def __init__(self, *, model: Type[ModelType], session: AsyncSession):
@@ -33,6 +40,10 @@ class SqlAlchemyRepository(AbstractRepository):
     def _add(self, model):
         self.session.add(model)
         return model
+
+    async def _list(self):
+        q = await self.session.execute(self._base_query)
+        return q.scalars().all()
 
     async def _get(self):
         q = await self.session.execute(self._base_query.limit(1))

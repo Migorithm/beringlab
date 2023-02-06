@@ -12,6 +12,8 @@ greenlet = "*"
 sqlalchemy2-stubs = "==0.0.2a19"
 sqlalchemy = "==1.4.27"
 uvicorn = "*"
+redis = "*"
+asgiref = "*"
 
 [dev-packages]
 flake8 = "*"

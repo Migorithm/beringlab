@@ -9,3 +9,16 @@ Suppose there is a task with high time complexity served by Django framework. To
 - docstring, comment, readme will be pluses
 - exception handlings on worker, queue and etcetera will be pluses
 - consideration for horizontal scalability
+
+
+### Set up
+- Installation of docker
+- create external volume
+```sh
+docker volume create sqlite-db
+docker compose up --build
+```
+
+### Test
+Head over to localhost:8000/docs, have a fun!
+

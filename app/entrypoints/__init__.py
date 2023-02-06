@@ -2,10 +2,14 @@ from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from starlette.responses import JSONResponse
 
-from app.adapters import queues
+from app.adapters import orm, queues
+from app.db import engine
 from app.entrypoints.router import router
 
 
+# create_app is a factory function,
+# which can be called multiple times, that returns a FastAPI app for us to use.
+# This is located in entrypoints so we can allow for other entries
 def create_app() -> FastAPI:
     """
     Application factory for initializing app
@@ -34,5 +38,13 @@ def create_app() -> FastAPI:
         )
 
     app.include_router(router)
+
+    # This is for test
+    @app.on_event("startup")
+    async def db_craete():
+        assert engine
+        async with engine.begin() as conn:
+            # await conn.execute(sa.text(drop_stmt))
+            await conn.run_sync(orm.metadata.create_all)
 
     return app
